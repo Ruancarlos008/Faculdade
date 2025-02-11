@@ -1,0 +1,54 @@
+#include <stdio.h>
+
+int main() {
+    int temperatura[20];   // Declara um array para armazenar as temperaturas
+    int frequencia[20] = {0}; // Inicializa um array para armazenar as frequências das temperaturas, inicialmente todas definidas como 0
+    
+    printf("Digite 20 valores de temperatura:\n");
+    
+    for (int i = 0; i < 20; i++) { // Loop para ler 20 temperaturas
+        printf("Digite o valor %d de 20 valores de temperatura: ", i + 1); // Solicita que o usuário insira uma temperatura individual
+        scanf("%d", &temperatura[i]); // Lê a temperatura e a armazena no array
+    }
+    
+    // Calcula a frequência de cada temperatura
+    for (int i = 0; i < 20; i++) { // Loop para cada temperatura no array
+        int contador = 1; // Inicializa um contador com 1 (pois a temperatura atual já foi encontrada uma vez)
+        if (frequencia[i] == -1) { // Verifica se a temperatura já foi contada anteriormente
+            continue; // Se já foi contada, pula para a próxima temperatura
+        }
+        for (int j = i + 1; j < 20; j++) { // Loop para comparar a temperatura atual com as temperaturas restantes no array
+            if (temperatura[i] == temperatura[j]) { // Se a temperatura atual for igual a uma temperatura subsequente
+                contador++; // Incrementa o contador
+                frequencia[j] = -1; // Marca a temperatura subsequente como já contada
+            }
+        }
+        frequencia[i] = contador; // Armazena a frequência da temperatura atual no array de frequência
+    }
+    
+    // Classifica as temperaturas em ordem decrescente de frequência
+    for (int i = 0; i < 19; i++) { // Loop para ordenar as temperaturas e frequências
+        for (int j = i + 1; j < 20; j++) { // Loop para comparar a temperatura atual com as temperaturas subsequentes
+            if (frequencia[i] < frequencia[j]) { // Se a frequência da temperatura atual for menor que a frequência da temperatura subsequente
+                int temp = frequencia[i]; // Troca as frequências
+                frequencia[i] = frequencia[j];
+                frequencia[j] = temp;
+                temp = temperatura[i]; // Troca as temperaturas correspondentes
+                temperatura[i] = temperatura[j];
+                temperatura[j] = temp;
+            }
+        }
+    }
+    
+    // Imprime o relatório de frequência
+    printf("RELATÓRIO DE FREQUÊNCIA\n");
+    printf("=======================\n");
+    
+    for (int i = 0; i < 20; i++) { // Loop para imprimir o relatório
+        if (frequencia[i] != -1) { // Verifica se a temperatura já foi contada
+            printf("%d - %d VEZES\n", temperatura[i], frequencia[i]); // Imprime a temperatura e sua frequência
+        }
+    }
+    
+    return 0;
+}
